@@ -32,4 +32,6 @@ React Native iOS app for tracking baby's notes, sleeps, eats, poos, and pees.
   - [ ] Time Graph
   - [ ] Comparison
 
+- [ ] UI Animations
+
 - [ ] Dashboard
