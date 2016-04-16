@@ -1,7 +1,7 @@
 Baby App
 --------
 
-React Native iOS app for tracking baby's notes, sleeps, eats, poos, and pees.
+Documenting learning about [React Native](https://facebook.github.io/react-native/).
 
 **Features**
 
