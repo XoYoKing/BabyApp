@@ -15,10 +15,27 @@ import React, {
   Dimensions,
   Image,
   SliderIOS,
-  ListView
+  ListView,
+  ScrollView
 } from 'react-native';
 
+import ScrollableTabView, { ScrollableTabBar } from 'react-native-scrollable-tab-view';
+
 import Camera from 'react-native-camera';
+
+const ACTIONS = ['notes', 'slept', 'ate', 'pood', 'peed'];
+
+class Nav extends Component {
+  render() {
+    return(
+      <ListView
+          key={'navigation'}
+          dataSource={dataSource}
+          renderRow={(rowData) => <Text  key={`list_id_${rowData}`} style={[styles.action , {backgroundColor: colors[rowData]}]}>{rowData}</Text>}/>
+        );
+  }
+
+}
 
 class BabyApp extends Component {
 
@@ -29,24 +46,38 @@ class BabyApp extends Component {
     this.state = {
       showCamera: false,
       name: 'Theo!',
-      dataSource: ds.cloneWithRows(['slept', 'ate', 'pood', 'peed', 'notes'])
+      dataSource: ds.cloneWithRows(ACTIONS)
     };
   }
 
   render() {
     const { height, width } = Dimensions.get('window');
-    const { bigImages, name } = this.state;
+    const { bigImages, name, dataSource } = this.state;
     return (
       <View style={styles.container}>
         <View style={styles.header}>
         <TextInput style={styles.name}  value={name} onChangeText={(name) => this.setState({name})} />
         <Text style={styles.photo} onPress={this._toggleCamera.bind(this)} />
         </View>
+        
         {this._camera()}
-        <ListView
-          key
-          dataSource={this.state.dataSource}
-          renderRow={(rowData) => <Text style={[styles.action , {backgroundColor: colors[rowData]}]}>{rowData}</Text>}/>
+
+        <ScrollableTabView
+          tabBarUnderlineColor='white'
+          tabBarActiveTextColor='white'
+          tabBarInactiveTextColor='rgba(255,255,255,.8)'
+          >
+          {ACTIONS.map((data) => {
+            return(<ScrollView key={`${data}_panel`} tabLabel={data} style={[styles.tabView, { backgroundColor: colors[data] }]}>
+                     <View style={styles.card}>
+                       <Text style={styles.title}>{data}</Text>
+                     </View>
+                   </ScrollView>);
+          })}
+          
+        </ScrollableTabView>
+        
+        
       </View>
     );
   }
@@ -139,6 +170,15 @@ const styles = StyleSheet.create({
     paddingLeft: 20,
     color: 'white',
     backgroundColor: 'black'
+  },
+
+  card: {
+    padding: 20
+  },
+
+  title: {
+    color: 'white',
+    fontSize: 40
   }
 
 
